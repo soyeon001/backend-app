@@ -2,12 +2,12 @@ pipeline {
     agent any
     
     tools {
-        nodejs 'node21'
+        nodejs 'node22'
     }
     
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        ECR_REGISTRY = '394952106077.dkr.ecr.ap-northeast-2.amazonaws.com/gomapp'
+        ECR_REGISTRY = '394952106077.dkr.ecr.ap-northeast-2.amazonaws.com/backend-app'
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION = "ap-northeast-2"
@@ -17,7 +17,7 @@ pipeline {
 		    // 소스코드를 깃허브에서 체크아웃
         stage('Git Checkout') {
             steps {
-                git branch: 'main', credentialsId: 'GITHUB_TOKEN', url: 'https://github.com/gomugomdori/gomapp.git'
+                git branch: 'main', credentialsId: 'GITHUB_TOKEN', url: 'https://github.com/soyeon001/backend-app.git'
             }
         }
         // npm - package.json의 내용에 따라 프로젝트의 의존성 설치
@@ -36,9 +36,9 @@ pipeline {
         stage('SonarQube') {
             steps {
                 // Jenkins 관리 -> System에서 설정한 소나큐브 서버 구성을 사용한다
-                withSonarQubeEnv('sonar') {
+                withSonarQubeEnv('sonarqube') {
                     // [소나큐브 스캐너 실행 파일 경로] -Dsonar.projectKey=[프로젝트 키(필수, 프로젝트 식별자)] -Dsonar.projectName=[프로젝트 이름(선택, UI에서 표시되는 이름)]
-                    sh '${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=gomapp -Dsonar.projectName=gomapp'
+                    sh '${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=backendapp -Dsonar.projectName=backendapp'
                 }   
             }
         }
