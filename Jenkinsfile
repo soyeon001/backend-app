@@ -38,7 +38,8 @@ pipeline {
                 // Jenkins 관리 -> System에서 설정한 소나큐브 서버 구성을 사용한다
                 withSonarQubeEnv('sonarqube') {
                     // [소나큐브 스캐너 실행 파일 경로] -Dsonar.projectKey=[프로젝트 키(필수, 프로젝트 식별자)] -Dsonar.projectName=[프로젝트 이름(선택, UI에서 표시되는 이름)]
-                    sh '${SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=backendapp -Dsonar.projectName=backendapp'
+                    sh '${SCANN
+                    ER_HOME}/bin/sonar-scanner -Dsonar.projectKey=backendapp -Dsonar.projectName=backendapp'
                 }   
             }
         }
@@ -81,10 +82,10 @@ pipeline {
 	      }
 	      // 파이프라인 성공/실패 슬랙 알림 전송
         success {
-	          slackSend (color: '#36A64F', message: "SUCCESS: GOMAPP (version : ${BUILD_NUMBER}) CI / CD completed successfully.")
+	          slackSend (color: '#36A64F', message: "SUCCESS: Backend-APP (version : ${BUILD_NUMBER}) CI / CD completed successfully.")
         }
         failure {
-	          slackSend (color: '#FF0000', message: "FAILURE: GOMAPP (version : ${BUILD_NUMBER}) CI / CD failed. Check Jenkins logs for more details.")
+	          slackSend (color: '#FF0000', message: "FAILURE: Backend-APP (version : ${BUILD_NUMBER}) CI / CD failed. Check Jenkins logs for more details.")
         }
     }
 }
